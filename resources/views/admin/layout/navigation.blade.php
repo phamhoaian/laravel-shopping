@@ -53,10 +53,10 @@
 					<a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Category<span class="fa arrow"></span></a>
 					<ul class="nav nav-second-level">
 						<li>
-							<a href="#">List Category</a>
+							<a href="{{ url('admin/cate/list') }}">List Category</a>
 						</li>
 						<li>
-							<a href="#">Add Category</a>
+							<a href="{{ url('admin/cate/add') }}">Add Category</a>
 						</li>
 					</ul>
 					<!-- /.nav-second-level -->
