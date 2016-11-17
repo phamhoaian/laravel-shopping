@@ -65,10 +65,10 @@
 					<a href="#"><i class="fa fa-cube fa-fw"></i> Product<span class="fa arrow"></span></a>
 					<ul class="nav nav-second-level">
 						<li>
-							<a href="#">List Product</a>
+							<a href="{{ url('admin/product/list') }}">List Product</a>
 						</li>
 						<li>
-							<a href="#">Add Product</a>
+							<a href="{{ url('admin/product/add') }}">Add Product</a>
 						</li>
 					</ul>
 					<!-- /.nav-second-level -->
