@@ -3,3 +3,10 @@ $(document).ready(function() {
 			responsive: true
 	});
 });
+
+function delete_confirm($mgr) {
+	if (window.confirm($mgr)) {
+		return true;
+	}
+	return false;
+}
