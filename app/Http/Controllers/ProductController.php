@@ -9,6 +9,7 @@ use App\Product;
 use App\ProductImage;
 use App\Cate;
 use Input;
+use File;
 
 class ProductController extends Controller {
 
@@ -63,5 +64,32 @@ class ProductController extends Controller {
 		}
 
 		return redirect()->route('admin.product.list')->with(['flash_level' => 'success', 'flash_message' => 'Success ! Complete Add Product']);
+	}
+
+	public function getDelete($id)
+	{
+		$product_detail = Product::find($id)->pimages->toArray();
+		foreach ($product_detail as $value) {
+			File::delete('resources/upload/detail/'.$value['image']);
+		}
+
+		$product = Product::find($id);
+		File::delete('resources/upload/'.$product->image);
+		$product->delete($id);
+
+		return redirect()->route('admin.product.list')->with(['flash_level' => 'success', 'flash_message' => 'Success ! Complete Delete Product']);
+	}
+
+	public function getEdit($id)
+	{
+		$cate = Cate::all()->toArray();
+		$product = Product::findOrFail($id);
+		$product_image = Product::find($id)->pimages->toArray();
+		return view('admin.product.edit', compact('cate', 'product', 'product_image'));
+	}
+
+	public function postEdit(ProductRequest $request, $id)
+	{
+		
 	}
 }

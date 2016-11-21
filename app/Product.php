@@ -20,7 +20,7 @@ class Product extends Model {
 		return $this->belongsTo("App\User");
 	}
 
-	public function image()
+	public function pimages()
 	{
 		return $this->hasMany("App\ProductImage");
 	}
