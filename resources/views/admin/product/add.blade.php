@@ -53,6 +53,15 @@
                     <button type="reset" class="btn btn-default">Reset</button>
                 <form>
             </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-4">
+            @for ($i = 1; $i <= 10; $i++)
+                <div class="form-group">
+                    <label for="">Image Product Detail {!! $i !!}</label>
+                    <input type="file" name="fProductDetail[]">
+                </div>
+            @endfor
+            </div>
         </div>
         <!-- /.row -->
     </div>

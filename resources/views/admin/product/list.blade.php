@@ -24,30 +24,29 @@
                         <th>Name</th>
                         <th>Price</th>
                         <th>Date</th>
-                        <th>Status</th>
+                        <th>Category</th>
                         <th>Delete</th>
                         <th>Edit</th>
                     </tr>
                 </thead>
                 <tbody>
+                @foreach($product as $item)
                     <tr class="odd gradeX" align="center">
-                        <td>1</td>
-                        <td>Áo Thun Nana</td>
-                        <td>200.000 VNĐ</td>
-                        <td>3 Minutes Age</td>
-                        <td>Hiện</td>
-                        <td class="center"><i class="fa fa-trash-o  fa-fw"></i><a href="#"> Delete</a></td>
-                        <td class="center"><i class="fa fa-pencil fa-fw"></i> <a href="#">Edit</a></td>
+                        <td>{!! $item["id"] !!}</td>
+                        <td>{!! $item["name"] !!}</td>
+                        <td>{!! number_format($item["price"], 0, ",", ".") !!} VNĐ</td>
+                        <td>{!! \Carbon\Carbon::createFromTimeStamp(strtotime($item["created_at"]))->diffForHumans() !!}
+                        </td>
+                        <td>
+                            <?php $cate = DB::table('cates')->where('id', $item["cate_id"])->first(); ?>
+                            @if (!empty($cate->name))
+                                {!! $cate->name !!}
+                            @endif
+                        </td>
+                        <td class="center"><i class="fa fa-trash-o  fa-fw"></i><a href="{!! route('admin.product.getDelete', $item["id"]) !!}"> Delete</a></td>
+                        <td class="center"><i class="fa fa-pencil fa-fw"></i> <a href="{!! route('admin.product.getEdit', $item["id"]) !!}">Edit</a></td>
                     </tr>
-                    <tr class="even gradeC" align="center">
-                        <td>2</td>
-                        <td>Áo Thun Polo</td>
-                        <td>250.000 VNĐ</td>
-                        <td>1 Hours Age</td>
-                        <td>Ẩn</td>
-                        <td class="center"><i class="fa fa-trash-o  fa-fw"></i><a href="#"> Delete</a></td>
-                        <td class="center"><i class="fa fa-pencil fa-fw"></i> <a href="#">Edit</a></td>
-                    </tr>
+                @endforeach
                 </tbody>
             </table>
         </div>

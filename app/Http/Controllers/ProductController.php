@@ -6,13 +6,16 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProductRequest;
 use App\Product;
+use App\ProductImage;
 use App\Cate;
+use Input;
 
 class ProductController extends Controller {
 
 	public function getList()
 	{
-		return view('admin.product.list');
+		$product = Product::orderBy('id', 'DESC')->get()->toArray();
+		return view('admin.product.list', compact('product'));
 	}
 
 	public function getAdd()
@@ -39,6 +42,25 @@ class ProductController extends Controller {
 		$request->file('fImages')->move('resources/upload/', $file_name);
 
 		$product->save();
+
+		// get product id
+		$product_id = $product->id;
+
+		// upload multi file 
+		if (Input::hasFile('fProductDetail'))
+		{
+			foreach (Input::file('fProductDetail') as $file)
+			{
+				$product_img = new ProductImage;
+				if (isset($file))
+				{
+					$product_img->image = $file->getClientOriginalName();
+					$product_img->product_id = $product_id;
+					$file->move('resources/upload/detail/', $file->getClientOriginalName());
+					$product_img->save();
+				}
+			}
+		}
 
 		return redirect()->route('admin.product.list')->with(['flash_level' => 'success', 'flash_message' => 'Success ! Complete Add Product']);
 	}
