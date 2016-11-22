@@ -35,6 +35,7 @@ Route::group(['prefix' => 'admin'], function(){
 		Route::post('add', ['as' => 'admin.product.postAdd', 'uses' => 'ProductController@postAdd']);
 		Route::get('delete/{id}', ['as' => 'admin.product.getDelete', 'uses' => 'ProductController@getDelete']);
 		Route::get('edit/{id}', ['as' => 'admin.product.getEdit', 'uses' => 'ProductController@getEdit']);
-		Route::post('edit/{id}', ['as' => 'admin.product.postEdit', 'uses' => 'ProductController@postEdit']);
+		Route::match(array('PUT', 'PATCH'), 'edit/{id}', ['as' => 'admin.product.postEdit', 'uses' => 'ProductController@postEdit']);
+		Route::get('del_img/{id}', ['as' => 'admin.product.getDelImage', 'uses' => 'ProductController@getDelImage']);
 	});
 });

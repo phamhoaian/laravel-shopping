@@ -21,11 +21,32 @@ class ProductRequest extends Request {
 	 */
 	public function rules()
 	{
-		return [
-			'sltCate' => 'required',
-			'txtName' => 'required|unique:products,name',
-			'fImages' => 'required|image'
-		];
+		switch($this->method())
+	    {
+	        case 'GET':
+	        case 'DELETE':
+	        {
+	            return [];
+	        }
+	        case 'POST':
+	        {
+	            return [
+					'sltCate' => 'required',
+					'txtName' => 'required|unique:products,name',
+					'fImages' => 'required|image'
+				];
+	        }
+	        case 'PUT':
+	        case 'PATCH':
+	        {
+	            return [
+					'sltCate' => 'required',
+					'txtName' => 'required|unique:products,name,'.$this->id,
+					'fImages' => 'image'
+				];
+	        }
+	        default:break;
+	    }
 	}
 
 	public function messages()

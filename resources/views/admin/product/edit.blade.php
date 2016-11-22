@@ -12,8 +12,9 @@
             <!-- /.col-lg-12 -->
             <div class="col-lg-7" style="padding-bottom:120px">
                 @include('admin.blocks.error')
-                <form action="{!! route('admin.product.getEdit') !!}" method="POST" enctype="multipart/form-data">
+                <form name="frmEditProduct" action="{!! route('admin.product.getEdit', $product["id"]) !!}" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="_token" value="{!! csrf_token() !!}">
+                    <input type="hidden" name="_method" value="PUT" />
                     <div class="form-group">
                         <label>Category</label>
                         <select class="form-control" name="sltCate">
@@ -46,6 +47,7 @@
                         <div class="image_preview">
                             <img src="{!! asset('resources/upload/'.$product['image']) !!}" alt="">
                         </div>
+                        <input type="hidden" name="img_current" value="{!! $product['image'] !!}">
                     </div>
                     <div class="form-group">
                         <label>Product Keywords</label>
@@ -61,18 +63,26 @@
             </div>
             <div class="col-md-1"></div>
             <div class="col-md-4">
-            @foreach($product_image as $key => $image)
-                <div class="form-group">
-                    <div class="image_preview">
-                        <img src="{!! asset('resources/upload/detail/'.$image['image']) !!}" alt="">
-                        <a href="" class="btn btn-danger btn-circle btn-del-img"><i class="fa fa-times"></i></a>
+            @if ($product_image)
+                @foreach($product_image as $key => $image)
+                    <div class="form-group" id="{!! $image['id'] !!}">
+                        <div class="image_preview">
+                            <img image_id="{!! $image['id'] !!}" src="{!! asset('resources/upload/detail/'.$image['image']) !!}" alt="">
+                            <a href="javascript:void(0)" class="btn btn-danger btn-circle btn-del-img"><i class="fa fa-times"></i></a>
+                        </div>
+                        <br/>
                     </div>
-                    <br/>
-                    <input type="file" name="fProductDetail[]">
-                </div>
-            @endforeach
-            <button type="button" class="btn btn-primary" id="btn-add-img">Add Images</button>
-            <div id="add_images"></div>
+                @endforeach
+                <button type="button" class="btn btn-primary" id="btn-add-img">Add Images</button>
+                <div id="add_images"></div>
+            @else
+                @for ($i = 1; $i <= 10; $i++)
+                    <div class="form-group">
+                        <label for="">Image Product Detail {!! $i !!}</label>
+                        <input type="file" name="fProductDetail[]">
+                    </div>
+                @endfor
+            @endif
             </div>
         </div>
         <!-- /.row -->
