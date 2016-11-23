@@ -50,3 +50,4 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function(){
 });
 
 Route::get('category/{id}/{alias}', ['as' => 'category', 'uses' => 'PagesController@category']);
+Route::get('product/{id}/{alias}', ['as' => 'product', 'uses' => 'PagesController@product']);

@@ -4,6 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
+use App\Product;
 
 class PagesController extends Controller {
 
@@ -14,7 +15,8 @@ class PagesController extends Controller {
 	 */
 	public function index()
 	{
-		return view('pages.home');
+		$feature_product = Product::orderBy('id', 'DESC')->skip(0)->take(5)->get();
+		return view('pages.home', compact('feature_product'));
 	}
 
 	public function category($id, $alias)
