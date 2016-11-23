@@ -11,7 +11,8 @@
 |
 */
 
-Route::get('/', 'WelcomeController@index');
+//Route::get('/', 'WelcomeController@index');
+Route::get('/', 'PagesController@index');
 
 Route::get('home', 'HomeController@index');
 
@@ -47,3 +48,5 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function(){
 		Route::match(array('PUT', 'PATCH'), 'edit/{id}', ['as' => 'admin.user.postEdit', 'uses' => 'UserController@postEdit']);
 	});
 });
+
+Route::get('category/{id}/{alias}', ['as' => 'category', 'uses' => 'PagesController@category']);
