@@ -41,9 +41,7 @@ class UserRequest extends Request {
 	        case 'PATCH':
 	        {
 	            return [
-					'txtUser'	=> 'required:unique:users,name,'.$this->id,
-					'txtPass'	=> 'required',
-					'txtRePass'	=> 'required|same:txtPass',
+					'txtRePass'	=> 'same:txtPass',
 					'txtEmail'	=> 'required|email'
 				];
 	        }

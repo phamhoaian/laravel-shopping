@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use App\User;
 use Hash;
+use Auth;
 
 class UserController extends Controller {
 
@@ -34,19 +35,40 @@ class UserController extends Controller {
 		return redirect()->route('admin.user.list')->with(['flash_level' => 'success', 'flash_message' => 'Success ! Completed Add User']);
 	}
 
-	public function getDelete()
+	public function getDelete($id)
 	{
-																																																																																		
+		$user_current_login = Auth::user()->id;
+		$user = User::find($id);
+		if ($id == 1 || ($user_current_login != 1 && $user["level"] == 1))
+		{
+			return redirect()->route('admin.user.list')->with(['flash_level' => 'danger', 'flash_message' => 'Error ! You Cannot Delete Superadmin']);
+		}
+		else 
+		{
+			$user->delete($id);
+			return redirect()->route('admin.user.list')->with(['flash_level' => 'success', 'flash_message' => 'Success ! Completed Delete User']);
+		}																																																																				
 	}
 
-	public function getEdit()
+	public function getEdit($id)
 	{
-		# code...
+		$user = User::find($id);
+		return view('admin.user.edit', compact('user'));
 	}
 
-	public function postEdit()
+	public function postEdit(UserRequest $request, $id)
 	{
-		# code...
+		$user = User::find($id);
+		if ($request->txtPass)
+		{
+			$user->password = Hash::make($request->txtPass);
+		}
+		$user->email = $request->txtEmail;
+		$user->level = $request->rdoLevel;
+		$user->remember_token = $request->_token;
+		$user->save();
+
+		return redirect()->route('admin.user.list')->with(['flash_level' => 'success', 'flash_message' => 'Success ! Completed Edit User']);
 	}
 
 }
