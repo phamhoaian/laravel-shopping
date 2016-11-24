@@ -32,7 +32,7 @@
                     @foreach($best_seller as $item)
                         <li>
                             <img width="50" height="50" src="{{ asset('resources/upload/'.$item->image) }}" alt="product" title="product">
-                            <a class="productname" href="product.html"> {!! $item->name !!}</a>
+                            <a class="productname" href="{{ url('product', [$item->id, $item->alias]) }}"> {!! $item->name !!}</a>
                             <span class="procategory">{!! $item->cate->name !!}</span>
                             <span class="price">{!! number_format($item->price) !!}</span>
                         </li>
@@ -46,7 +46,7 @@
                     @foreach($latest_product as $item)
                         <li>
                             <img width="50" height="50" src="{{ asset('resources/upload/'.$item->image) }}" alt="product" title="product">
-                            <a class="productname" href="product.html"> {!! $item->name !!}</a>
+                            <a class="productname" href="{{ url('product', [$item->id, $item->alias]) }}"> {!! $item->name !!}</a>
                             <span class="procategory">{!! $item->cate->name !!}</span>
                             <span class="price">{!! number_format($item->price) !!}</span>
                         </li>
@@ -83,7 +83,7 @@
                                         <a class="prdocutname" href="product.html">{!! $item->name !!}</a>
                                         <div class="thumbnail">
                                             <span class="sale tooltip-test">Sale</span>
-                                            <a href="#"><img alt="" src="{{ asset('resources/upload/'.$item->image) }}"></a>
+                                            <a href="{{ url('product', [$item->id, $item->alias]) }}"><img alt="" src="{{ asset('resources/upload/'.$item->image) }}"></a>
                                             <div class="pricetag">
                                                 <span class="spiral"></span><a href="#" class="productcart">ADD TO CART</a>
                                                 <div class="price">
@@ -96,19 +96,19 @@
                                 </ul>
                                 <div class="pagination pull-right">
                                     <ul>
-                                        <li><a href="#">Prev</a>
+                                        @if($product->currentPage() != 1)
+                                        <li><a href="{!! str_replace('/?', '?', $product->url($product->currentPage() - 1)) !!}">Prev</a>
                                         </li>
-                                        <li class="active">
-                                            <a href="#">1</a>
+                                        @endif
+                                        @for($i = 1; $i <= $product->lastPage(); $i++)
+                                        <li class="{!! $product->currentPage() == $i ? 'active' : '' !!}">
+                                            <a href="{!! str_replace('/?', '?', $product->url($i)) !!}">{!! $i !!}</a>
                                         </li>
-                                        <li><a href="#">2</a>
+                                        @endfor
+                                        @if($product->currentPage() != $product->lastPage())
+                                        <li><a href="{!! str_replace('/?', '?', $product->url($product->currentPage() + 1)) !!}">Next</a>
                                         </li>
-                                        <li><a href="#">3</a>
-                                        </li>
-                                        <li><a href="#">4</a>
-                                        </li>
-                                        <li><a href="#">Next</a>
-                                        </li>
+                                        @endif
                                     </ul>
                                 </div>
                             </section>

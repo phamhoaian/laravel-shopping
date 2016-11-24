@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\Product;
+use App\ProductImage;
 use App\Cate;
 
 class PagesController extends Controller {
@@ -22,7 +23,7 @@ class PagesController extends Controller {
 
 	public function category($id, $alias)
 	{
-		$product = Product::where('cate_id', $id)->get();
+		$product = Product::where('cate_id', $id)->paginate(2);
 
 		$cate = Cate::where('id', $id)->first();
 		if ($cate->parent_id != 0) {
@@ -38,4 +39,11 @@ class PagesController extends Controller {
 		return view('pages.category', compact('product', 'menu_cate', 'best_seller', 'latest_product'));
 	}
 
+	public function product($id)
+	{
+		$product = Product::where('id', $id)->first();
+		$product_image = ProductImage::where('product_id', $id)->get();
+		$related_product = Product::where('id', '<>', $id)->where('cate_id', $product->cate_id)->orderByRaw('RAND()')->take(4)->get();
+		return view('pages.product', compact('product', 'product_image', 'related_product'));
+	}
 }
