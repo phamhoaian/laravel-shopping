@@ -3,10 +3,12 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use Illuminate\Http\Request;
+//use Illuminate\Http\Request;
 use App\Product;
 use App\ProductImage;
 use App\Cate;
+use Cart;
+use Request;
 
 class PagesController extends Controller {
 
@@ -45,5 +47,48 @@ class PagesController extends Controller {
 		$product_image = ProductImage::where('product_id', $id)->get();
 		$related_product = Product::where('id', '<>', $id)->where('cate_id', $product->cate_id)->orderByRaw('RAND()')->take(4)->get();
 		return view('pages.product', compact('product', 'product_image', 'related_product'));
+	}
+
+	public function addToCart($id)
+	{
+		$product_buy = Product::where('id', $id)->first();
+		$cart = array(
+			'id'		=> $id,
+			'name'		=> $product_buy->name,
+			'qty'		=> 1,
+			'price'		=> $product_buy->price,
+			'options' 	=> array('img' => $product_buy->image)
+		);
+		Cart::add($cart);
+
+		return redirect()->route('cart');
+	}
+
+	public function cart()
+	{
+		$content = Cart::content();
+		$total = Cart::total();
+		return view('pages.cart', compact('content', 'total'));
+	}
+
+	public function cartDelete($id)
+	{
+		Cart::remove($id);
+		return redirect()->route('cart');
+	}
+
+	public function cartUpdate($rowid, $qty)
+	{
+		if (Request::ajax()) 
+		{
+			$rowid = Request::get('rowid');
+			$qty = Request::get('qty');
+			Cart::update($rowid, $qty);
+			return json_encode(['response' => true]);
+		}
+		else
+		{
+			return json_encode(['response' => false]);
+		}
 	}
 }

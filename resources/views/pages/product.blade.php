@@ -44,7 +44,7 @@
 								<span class="spiral"></span>{!! number_format($product->price) !!}</div>
 						</div>
 						<ul class="productpagecart">
-							<li><a class="cart" href="#">Add to Cart</a>
+							<li><a class="cart" href="{{ url('add-to-cart', [$product->id, $product->alias]) }}">Add to Cart</a>
 							</li>
 						</ul>
 						<!-- Product Description tab & comments-->

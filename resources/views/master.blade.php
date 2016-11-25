@@ -20,6 +20,9 @@
 		  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
 	<!-- fav -->
+	<script type="text/javascript">
+		var baseURL = "{!! url('/') !!}";
+	</script>
 	<link rel="shortcut icon" href="asset/ico/favicon.html">
 </head>
 <body>
@@ -61,5 +64,6 @@
 	<script type="text/javascript"  src="{!! asset('public/front/js/jquery.touchSwipe.min.js') !!}"></script>
 	<script type="text/javascript"  src="{!! asset('public/front/js/jquery.ba-throttle-debounce.min.js') !!}"></script>
 	<script defer src="{!! asset('public/front/js/custom.js') !!}"></script>
+	<script defer src="{!! asset('public/front/js/myscript.js') !!}"></script>
 </body>
 </html>

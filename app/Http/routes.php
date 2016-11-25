@@ -51,3 +51,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function(){
 
 Route::get('category/{id}/{alias}', ['as' => 'category', 'uses' => 'PagesController@category']);
 Route::get('product/{id}/{alias}', ['as' => 'product', 'uses' => 'PagesController@product']);
+Route::get('add-to-cart/{id}/{productname}', ['as' => 'addToCart', 'uses' => 'PagesController@addToCart']);
+Route::get('cart', ['as' => 'cart', 'uses' => 'PagesController@cart']);
+Route::get('cart-delete/{id}', ['as' => 'cartDelete', 'uses' => 'PagesController@cartDelete']);
+Route::get('cart-update/{id}/{qty}', ['as' => 'cartUpdate', 'uses' => 'PagesController@cartUpdate']);
