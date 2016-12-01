@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 
 //use Illuminate\Http\Request;
 use App\Http\Requests\ProductRequest;
+use App\Repositories\Eloquents\ProductRepository;
 use App\Product;
 use App\ProductImage;
 use App\Cate;
@@ -15,9 +16,16 @@ use Request;
 
 class ProductController extends Controller {
 
+	protected $productRepository;
+
+	public function __construct(ProductRepository $productRepository)
+	{
+		$this->productRepository = $productRepository;
+	}
+
 	public function getList()
 	{
-		$product = Product::orderBy('id', 'DESC')->get()->toArray();
+		$product = $this->productRepository->all();
 		return view('admin.product.list', compact('product'));
 	}
 
