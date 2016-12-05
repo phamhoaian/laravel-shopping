@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 //use Illuminate\Http\Request;
 use App\Http\Requests\ProductRequest;
 use App\Repositories\Eloquents\ProductRepository;
+use App\Repositories\Eloquents\CateRepository;
 use App\Product;
 use App\ProductImage;
 use App\Cate;
@@ -18,9 +19,12 @@ class ProductController extends Controller {
 
 	protected $productRepository;
 
-	public function __construct(ProductRepository $productRepository)
+	protected $cateRepository;
+
+	public function __construct(ProductRepository $productRepository, CateRepository $cateRepository)
 	{
 		$this->productRepository = $productRepository;
+		$this->cateRepository = $cateRepository;
 	}
 
 	public function getList()
@@ -31,31 +35,30 @@ class ProductController extends Controller {
 
 	public function getAdd()
 	{
-		$cate = Cate::all()->toArray();
+		$cate = $this->cateRepository->all();
 		return view('admin.product.add', compact('cate'));
 	}
 
 	public function postAdd(ProductRequest $request)
 	{
-		$product = new Product;
-		$product->name = $request->txtName;
-		$product->alias = changeTitle($request->txtName);
-		$product->price = $request->txtPrice;
-		$product->intro = $request->txtIntro;
-		$product->content = $request->txtContent;
-		$product->keywords = $request->txtKeywords;
-		$product->description = $request->txtDescription;
-		$product->cate_id = $request->sltCate;
-		$product->user_id = Auth::user()->id;
+		$input['name'] = $request->txtName;
+		$input['alias'] = changeTitle($request->txtName);
+		$input['price'] = $request->txtPrice;
+		$input['intro'] = $request->txtIntro;
+		$input['content'] = $request->txtContent;
+		$input['keywords'] = $request->txtKeywords;
+		$input['description'] = $request->txtDescription;
+		$input['cate_id'] = $request->sltCate;
+		$input['user_id'] = Auth::user()->id;
 
 		$file_name = $request->file('fImages')->getClientOriginalName();
-		$product->image = $file_name;
+		$input['image'] = $file_name;
 		$request->file('fImages')->move('resources/upload/', $file_name);
 
-		$product->save();
+		$product = $this->productRepository->create($input);
 
 		// get product id
-		$product_id = $product->id;
+		$product_id = $product->attributes->id;
 
 		// upload multi file 
 		if (Input::hasFile('fProductDetail'))

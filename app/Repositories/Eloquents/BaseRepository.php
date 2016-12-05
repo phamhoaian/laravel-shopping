@@ -60,23 +60,30 @@ abstract class BaseRepository implements RepositoryInterface
      */
     public function findByField($field, $value, $columns = ['*'])
     {
-        return $this->model->where($field, $value);
+        return $this->model->where($field, '=', $value)->get($columns);
     }
 
     /**   
-     * Find data by field
+     * Find data by multiple condition
      */
     public function findWhere(array $where , $columns = ['*'])
     {
-        
+        foreach ($where as $field => $value) {
+            if (is_array($value)) {
+                list($field, $condition, $val) = $value;
+                return $this->model->where($field, $condition, $val)->get($columns);
+            } else {
+                return $this->model->where($field, '=', $value)->get($columns);
+            }
+        }
     }
 
     /**   
-     * Find data by field
+     * Find data matches condition
      */
     public function findWhereIn($field, array $values, $columns = ['*'])
     {
-        
+        return $this->model->whereIn($field, $values)->get($columns);
     }
 
     /**   
@@ -84,7 +91,7 @@ abstract class BaseRepository implements RepositoryInterface
      */
     public function findWhereNotIn($field, array $values, $columns = ['*'])
     {
-        
+        return $this->model->whereNotIn($field, $values)->get($columns);
     }
 
     /**
