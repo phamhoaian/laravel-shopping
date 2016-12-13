@@ -121,4 +121,15 @@ abstract class BaseRepository implements RepositoryInterface
     {
         return $this->model->destroy($id);
     }
+
+    /**
+     * Retrieve data with eager loading
+     */
+    public function with($relations)
+    {
+        if (is_string($relations)) {
+            $relations = func_get_arg();
+        }
+        return $this->model
+    }
 }

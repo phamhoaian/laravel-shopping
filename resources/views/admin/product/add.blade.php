@@ -16,38 +16,38 @@
                     <input type="hidden" name="_token" value="{!! csrf_token() !!}">
                     <div class="form-group">
                         <label>Category</label>
-                        <select class="form-control" name="sltCate">
+                        <select class="form-control" name="cate_id">
                             <option value="">Please Choose Category</option>
-                            {!! cate_parent($cate, 0, "--", old('sltCate')) !!}
+                            {!! cate_parent($cate, 0, "--", old('cate_id')) !!}
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Name</label>
-                        <input class="form-control" name="txtName" placeholder="Please Enter Username" value="{!! old('txtName') !!}" />
+                        <input class="form-control" name="name" placeholder="Please Enter Username" value="{!! old('name') !!}" />
                     </div>
                     <div class="form-group">
                         <label>Price</label>
-                        <input class="form-control" name="txtPrice" placeholder="Please Enter Price" value="{!! old('txtPrice') !!}" />
+                        <input class="form-control" name="price" placeholder="Please Enter Price" value="{!! old('price') !!}" />
                     </div>
                     <div class="form-group">
                         <label>Intro</label>
-                        <textarea class="form-control" rows="3" name="txtIntro">{!! old('txtIntro') !!}</textarea>
+                        <textarea class="form-control" rows="3" name="intro">{!! old('intro') !!}</textarea>
                     </div>
                     <div class="form-group">
                         <label>Content</label>
-                        <textarea class="form-control" rows="3" name="txtContent">{!! old('txtContent') !!}</textarea>
+                        <textarea class="form-control" rows="3" name="content">{!! old('content') !!}</textarea>
                     </div>
                     <div class="form-group">
                         <label>Images</label>
-                        <input type="file" name="fImages" value="{!! old('fImages') !!}">
+                        <input type="file" name="image" value="{!! old('image') !!}">
                     </div>
                     <div class="form-group">
                         <label>Product Keywords</label>
-                        <input class="form-control" name="txtKeywords" placeholder="Please Enter Category Keywords" value="{!! old('txtKeywords') !!}" />
+                        <input class="form-control" name="keywords" placeholder="Please Enter Category Keywords" value="{!! old('keywords') !!}" />
                     </div>
                     <div class="form-group">
                         <label>Product Description</label>
-                        <textarea class="form-control" rows="3" name="txtDescription">{!! old('txtDescription') !!}</textarea>
+                        <textarea class="form-control" rows="3" name="description" id="description">{!! old('description') !!}</textarea>
                     </div>
                     <button type="submit" class="btn btn-default">Product Add</button>
                     <button type="reset" class="btn btn-default">Reset</button>
@@ -68,8 +68,7 @@
     <!-- /.container-fluid -->
 </div>
 <script type="text/javascript">
-    ckeditor('txtIntro');
-    ckeditor('txtContent');
-    ckeditor('txtDescription');
+    ckeditor('intro');
+    ckeditor('content');
 </script>
 @endsection

@@ -17,30 +17,30 @@
                     <input type="hidden" name="_method" value="PUT" />
                     <div class="form-group">
                         <label>Category</label>
-                        <select class="form-control" name="sltCate">
+                        <select class="form-control" name="cate_id">
                             <option value="">Please Choose Category</option>
                             {!! cate_parent($cate, 0, "--", $product['cate_id']) !!}
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Name</label>
-                        <input class="form-control" name="txtName" placeholder="Please Enter Username" value="{!! old('txtName', isset($product) ? $product['name'] : NULL) !!}" />
+                        <input class="form-control" name="name" placeholder="Please Enter Username" value="{!! old('name', isset($product) ? $product['name'] : NULL) !!}" />
                     </div>
                     <div class="form-group">
                         <label>Price</label>
-                        <input class="form-control" name="txtPrice" placeholder="Please Enter Price" value="{!! old('txtPrice', isset($product) ? $product['price'] : NULL) !!}" />
+                        <input class="form-control" name="price" placeholder="Please Enter Price" value="{!! old('price', isset($product) ? $product['price'] : NULL) !!}" />
                     </div>
                     <div class="form-group">
                         <label>Intro</label>
-                        <textarea class="form-control" rows="3" name="txtIntro">{!! old('txtIntro', isset($product) ? $product['intro'] : NULL) !!}</textarea>
+                        <textarea class="form-control" rows="3" name="intro">{!! old('intro', isset($product) ? $product['intro'] : NULL) !!}</textarea>
                     </div>
                     <div class="form-group">
                         <label>Content</label>
-                        <textarea class="form-control" rows="3" name="txtContent">{!! old('txtContent', isset($product) ? $product['content'] : NULL) !!}</textarea>
+                        <textarea class="form-control" rows="3" name="content">{!! old('content', isset($product) ? $product['content'] : NULL) !!}</textarea>
                     </div>
                     <div class="form-group">
                         <label>Images</label>
-                        <input type="file" name="fImages" value="{!! old('fImages') !!}">
+                        <input type="file" name="image" value="{!! old('image') !!}">
                     </div>
                     <div class="form-group">
                         <label>Image Preview</label>
@@ -51,11 +51,11 @@
                     </div>
                     <div class="form-group">
                         <label>Product Keywords</label>
-                        <input class="form-control" name="txtKeywords" placeholder="Please Enter Category Keywords" value="{!! old('txtKeywords', isset($product) ? $product['keywords'] : NULL) !!}" />
+                        <input class="form-control" name="keywords" placeholder="Please Enter Category Keywords" value="{!! old('keywords', isset($product) ? $product['keywords'] : NULL) !!}" />
                     </div>
                     <div class="form-group">
                         <label>Product Description</label>
-                        <textarea class="form-control" rows="3" name="txtDescription">{!! old('txtDescription', isset($product) ? $product['description'] : NULL) !!}</textarea>
+                        <textarea class="form-control" rows="3" name="description">{!! old('description', isset($product) ? $product['description'] : NULL) !!}</textarea>
                     </div>
                     <button type="submit" class="btn btn-default">Product Edit</button>
                     <button type="reset" class="btn btn-default">Reset</button>
@@ -104,8 +104,7 @@
     }
 </style>
 <script type="text/javascript">
-    ckeditor('txtIntro');
-    ckeditor('txtContent');
-    ckeditor('txtDescription');
+    ckeditor('intro');
+    ckeditor('content');
 </script>
 @endsection

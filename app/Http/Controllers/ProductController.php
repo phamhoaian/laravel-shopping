@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 //use Illuminate\Http\Request;
 use App\Http\Requests\ProductRequest;
 use App\Repositories\Eloquents\ProductRepository;
+use App\Repositories\Eloquents\ProductImageRepository;
 use App\Repositories\Eloquents\CateRepository;
 use App\Product;
 use App\ProductImage;
@@ -21,9 +22,12 @@ class ProductController extends Controller {
 
 	protected $cateRepository;
 
-	public function __construct(ProductRepository $productRepository, CateRepository $cateRepository)
+	protected $productImageRepository;
+
+	public function __construct(ProductRepository $productRepository, ProductImageRepository $productImageRepository, CateRepository $cateRepository)
 	{
 		$this->productRepository = $productRepository;
+		$this->productImageRepository = $productImageRepository;
 		$this->cateRepository = $cateRepository;
 	}
 
@@ -41,37 +45,30 @@ class ProductController extends Controller {
 
 	public function postAdd(ProductRequest $request)
 	{
-		$input['name'] = $request->txtName;
-		$input['alias'] = changeTitle($request->txtName);
-		$input['price'] = $request->txtPrice;
-		$input['intro'] = $request->txtIntro;
-		$input['content'] = $request->txtContent;
-		$input['keywords'] = $request->txtKeywords;
-		$input['description'] = $request->txtDescription;
-		$input['cate_id'] = $request->sltCate;
+		$input = $request->except(['_token', 'image', 'fProductDetail']);
+		$input['alias'] = changeTitle($request->name);
 		$input['user_id'] = Auth::user()->id;
 
-		$file_name = $request->file('fImages')->getClientOriginalName();
+		$file_name = $request->file('image')->getClientOriginalName();
 		$input['image'] = $file_name;
-		$request->file('fImages')->move('resources/upload/', $file_name);
+		$request->file('image')->move('resources/upload/', $file_name);
 
 		$product = $this->productRepository->create($input);
 
 		// get product id
-		$product_id = $product->attributes->id;
+		$product_id = $product->id;
 
 		// upload multi file 
 		if (Input::hasFile('fProductDetail'))
 		{
 			foreach (Input::file('fProductDetail') as $file)
 			{
-				$product_img = new ProductImage;
 				if (isset($file))
 				{
-					$product_img->image = $file->getClientOriginalName();
-					$product_img->product_id = $product_id;
+					$product_img['image'] = $file->getClientOriginalName();
+					$product_img['product_id'] = $product_id;
 					$file->move('resources/upload/detail/', $file->getClientOriginalName());
-					$product_img->save();
+					$this->productImageRepository->create($product_img);
 				}
 			}
 		}
@@ -95,9 +92,9 @@ class ProductController extends Controller {
 
 	public function getEdit($id)
 	{
-		$cate = Cate::all()->toArray();
-		$product = Product::findOrFail($id);
-		$product_image = Product::find($id)->pimages->toArray();
+		$cate = $this->cateRepository->all();
+		$product = $this->productRepository->find($id);
+		$product_image = $this->productRepository->find($id)->pimages->toArray();
 		return view('admin.product.edit', compact('cate', 'product', 'product_image'));
 	}
 

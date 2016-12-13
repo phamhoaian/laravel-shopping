@@ -31,18 +31,18 @@ class ProductRequest extends Request {
 	        case 'POST':
 	        {
 	            return [
-					'sltCate' => 'required',
-					'txtName' => 'required|unique:products,name',
-					'fImages' => 'required|image'
+					'cate_id' => 'required',
+					'name' => 'required|unique:products,name',
+					'image' => 'required|image'
 				];
 	        }
 	        case 'PUT':
 	        case 'PATCH':
 	        {
 	            return [
-					'sltCate' => 'required',
-					'txtName' => 'required|unique:products,name,'.$this->id,
-					'fImages' => 'image'
+					'cate_id' => 'required',
+					'name' => 'required|unique:products,name,'.$this->id,
+					'image' => 'image'
 				];
 	        }
 	        default:break;
@@ -52,11 +52,11 @@ class ProductRequest extends Request {
 	public function messages()
 	{
 		return [
-			'sltCate.required' => 'Please Choose Category',
-			'txtName.required' => 'Please Enter Product Name',
-			'txtName.unique' => 'Product Name Is Exist',
-			'fImages.required' => 'Please Upload Images',
-			'fImages.image'	=> 'This File Is Not Image'
+			'cate_id.required' => 'Please Choose Category',
+			'name.required' => 'Please Enter Product Name',
+			'name.unique' => 'Product Name Is Exist',
+			'image.required' => 'Please Upload Images',
+			'image.image'	=> 'This File Is Not Image'
 		];
 	}
 
